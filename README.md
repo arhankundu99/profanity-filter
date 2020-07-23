@@ -23,6 +23,24 @@ profanity_filter.isProfane('You piece of $h*t')
 # returns true
 ```
 
+# How this profanity filter works
+
+```python
+MAP = {
+            "a": ("a", "@", "*", "4"),
+            "b": ("b", "6"),
+            "i": ("i", "*", "l", "1"),
+            "o": ("o", "*", "0", "@"),
+            "u": ("u", "*", "v"),
+            "v": ("v", "*", "u"),
+            "l": ("l", "1", "I"),
+            "e": ("e", "*", "3"),
+            "s": ("s", "$", "5"),
+            "t": ("t", "7")
+        }
+```
+This map maps characters with set of similar looking words. Using this map and DFS, we can generate modified spelling words of the words present in the `profane_wordlist.txt` and add them into a set. So if the word is present in the set, then it is profane otherwise not.
+
 
 
 
