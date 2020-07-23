@@ -41,6 +41,9 @@ MAP = {
 ```
 This map maps characters with set of similar looking characters. Using this map and DFS, we can generate modified spelling words of the words present in the `profane_wordlist.txt` and add them into a set. So if the word is present in the set, then it is profane otherwise not.
 
+For example if our profane word is 'abe', then the DFS algorithm would generate:
+```abe, @be, *be, 4be, a6e, ab*, ab5...etc```
+
 
 
 
