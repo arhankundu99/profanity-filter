@@ -39,7 +39,7 @@ MAP = {
             "t": ("t", "7")
         }
 ```
-This map maps characters with set of similar looking words. Using this map and DFS, we can generate modified spelling words of the words present in the `profane_wordlist.txt` and add them into a set. So if the word is present in the set, then it is profane otherwise not.
+This map maps characters with set of similar looking characters. Using this map and DFS, we can generate modified spelling words of the words present in the `profane_wordlist.txt` and add them into a set. So if the word is present in the set, then it is profane otherwise not.
 
 
 
