@@ -7,9 +7,9 @@ Most of the words which are in the `profane_wordlist.txt` are taken from Bad Wor
 ```python
 from profanity import ProfanityFilter
 profanity_filter = ProfanityFilter()
-clean_text = profanity_filter.censor("you f*uk")
+clean_text = profanity_filter.censor("D*mn you!")
 print(clean_text) 
-# you ****
+# **** you!
 ```
 
 You can add your custom profane wordlist and custom whitelist
