@@ -44,7 +44,7 @@ This map maps characters with set of similar looking characters. Using this map 
 For example if our profane word is 'abe', then the DFS algorithm would generate:
 ```abe, @be, *be, 4be, a6e, ab*, ab5...etc```
 
-# Check whether if your image is profane or not
+Check whether if your image is profane or not
 ```python
 r = profanity_filter.get_image_analysis(IMAGE_URL)
 print(r.json())
@@ -53,7 +53,7 @@ print(r.json())
 This is done with the help of 'DeepAI' Api <br/>
 <https://deepai.org/machine-learning-model/nsfw-detector>
 
-# Censor your profane image
+Censor your profane image
 ```python
 profanity_filter.censor(image_url)
 ```
