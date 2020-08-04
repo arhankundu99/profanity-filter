@@ -23,7 +23,7 @@ profanity_filter.isProfane('You piece of $h*t')
 # returns true
 ```
 
-# How this profanity filter works
+# How this profanity filter for text works
 
 ```python
 MAP = {
@@ -44,6 +44,19 @@ This map maps characters with set of similar looking characters. Using this map 
 For example if our profane word is 'abe', then the DFS algorithm would generate:
 ```abe, @be, *be, 4be, a6e, ab*, ab5...etc```
 
+# Check whether if your image is profane or not
+```python
+r = profanity_filter.get_image_analysis(IMAGE_URL)
+print(r.json())
+# json output which contains profanity_score of the image and other details
+```
+This is done with the help of 'DeepAI' Api
+
+# Censor your profane image
+```python
+profanity_filter.censor(image_url)
+```
+This is done with the help of pillow library which is a Photo imaging library
 
 
 
