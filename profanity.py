@@ -88,7 +88,17 @@ class ProfanityFilter:
         if word.lower() in self.PROFANE_WORDSET:
             return True
         return False
-
+    
+    def get_image_analysis(self, URL):
+        r = requests.post(
+            "https://api.deepai.org/api/nsfw-detector",
+            data={
+                'image': URL,
+            },
+            headers={'api-key': '7b0ebb62-4127-46a7-877f-2d520f635a75'}
+        )
+        print(r.json()['output'])
+        
     def get_image_profanity_score(self, image_url):
         r = requests.post(
             "https://api.deepai.org/api/nsfw-detector",
