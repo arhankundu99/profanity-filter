@@ -50,13 +50,15 @@ r = profanity_filter.get_image_analysis(IMAGE_URL)
 print(r.json())
 # json output which contains profanity_score of the image and other details
 ```
-This is done with the help of 'DeepAI' Api
+This is done with the help of 'DeepAI' Api <br/>
+<https://deepai.org/machine-learning-model/nsfw-detector>
 
 # Censor your profane image
 ```python
 profanity_filter.censor(image_url)
 ```
-This is done with the help of pillow library which is a Photo imaging library
+This is done with the help of pillow library which is a Photo imaging library <br/>
+<https://pypi.org/project/Pillow/>
 
 
 
