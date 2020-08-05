@@ -23,7 +23,7 @@ profanity_filter.isProfane('You piece of $h*t')
 # returns true
 ```
 
-## How this profanity filter for text words
+## How this profanity filter works for text words
 
 ```python
 MAP = {
