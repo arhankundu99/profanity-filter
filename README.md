@@ -42,7 +42,7 @@ MAP = {
         }
 ```
 This map maps characters with set of similar looking characters. Using this map and DFS, we generate modified spelling words of the words present in the `profane_wordlist.txt` and add them into a trie data structure. So if the prefix of the word is present in the trie, then it is profane otherwise not. For example the filter will detect `D@mnyou` as profane even though the word `Damnyou` is not there in the wordlist <br/>
-
+The purpose of using DFS is to generate distorted profane words. <br/>
 The wordlist contains a total of **181,590** words, including 320 words from the default profanity_wordlist.txt and their variants by modified spellings. <br/>
 
 For example if our profane word is 'abe', then the DFS algorithm would generate:
