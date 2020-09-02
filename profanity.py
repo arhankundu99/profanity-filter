@@ -2,11 +2,11 @@ from utils import (get_complete_path, read_wordList)
 import requests
 from PIL import Image, ImageFilter
 from io import BytesIO
+from trie import Trie
 
 
 class ProfanityFilter:
     def __init__(self):
-        self.PROFANE_WORDSET = set()
         self.CHARS_MAPPING = {
             "a": ("a", "@", "*", "4"),
             "b": ("b", "6"),
@@ -19,6 +19,8 @@ class ProfanityFilter:
             "s": ("s", "$", "5"),
             "t": ("t", "7")
         }
+        self.profane_trie = Trie()
+        self.whiteList_trie = Trie()
         self.default_wordlist_filename = get_complete_path('data/profanity_wordlist.txt')
         self.load_profane_words()
 
@@ -29,46 +31,48 @@ class ProfanityFilter:
         if type(censor_char) != str:
             censor_char = str(censor_char)
 
-        if len(self.PROFANE_WORDSET) == 0:
-            self.load_censor_words()
+        if self.profane_trie.root is None:
+            self.load_profane_words()
 
         return self.censor_profane_words(text, censor_char)
 
     def load_profane_words(self, custom_profane_wordlist=None, whitelist=None):
-        if custom_profane_wordlist:
-            self.fill_profane_wordset(custom_profane_wordlist, whitelist)
+        if custom_profane_wordlist is not None:
+            self.profane_trie = Trie()
+            self.whiteList_trie = Trie()
+
+            for word in whitelist:
+                self.whiteList_trie.insert(word)
+            self.fill_profane_wordset(custom_profane_wordlist)
         else:
             profane_words = read_wordList(self.default_wordlist_filename)
-            self.fill_profane_wordset(profane_words, whitelist)
+            self.fill_profane_wordset(profane_words)
 
-    def fill_profane_wordset(self, profane_words, whitelist):
-        all_censor_words = self.generate_possible_profane_words(profane_words, whitelist)
-        self.PROFANE_WORDSET = all_censor_words
+    def fill_profane_wordset(self, profane_words):
+        self.generate_possible_profane_words(profane_words)
 
-    def generate_possible_profane_words(self, profane_words, whitelist):
-        all_censor_words = []
+    def generate_possible_profane_words(self, profane_words):
         for profane_word in profane_words:
-            self.dfs(profane_word, 0, [], all_censor_words, whitelist)
-        return all_censor_words
+            self.dfs(profane_word, 0, [])
 
-    def dfs(self, profane_word, idx, char_list, all_censor_words, whitelist):
+    def dfs(self, profane_word, idx, char_list):
         if idx == len(profane_word):
             possible_profane_word = ''
             for char in char_list:
                 possible_profane_word += char
-            if whitelist is None or possible_profane_word not in whitelist:
-                all_censor_words.append(possible_profane_word)
+            if self.whiteList_trie.root is None or self.whiteList_trie.hasPrefix(possible_profane_word) is False:
+                self.profane_trie.insert(possible_profane_word)
             return
 
         if profane_word[idx] not in self.CHARS_MAPPING:
             char_list.append(profane_word[idx])
-            self.dfs(profane_word, idx+1, char_list, all_censor_words, whitelist)
+            self.dfs(profane_word, idx+1, char_list)
             char_list.pop(len(char_list)-1)
 
         else:
             for char in self.CHARS_MAPPING[profane_word[idx]]:
                 char_list.append(char)
-                self.dfs(profane_word, idx + 1, char_list, all_censor_words, whitelist)
+                self.dfs(profane_word, idx + 1, char_list)
                 char_list.pop(len(char_list) - 1)
 
     def censor_profane_words(self, message, censor_char):
@@ -76,7 +80,7 @@ class ProfanityFilter:
         clean_message = ''
         for word in message:
             curr_word = ''
-            if (word.lower()) in self.PROFANE_WORDSET:
+            if self.profane_trie.hasPrefix(word):
                 for i in range(len(word)):
                     curr_word += censor_char
             else:
@@ -85,7 +89,7 @@ class ProfanityFilter:
         return clean_message
 
     def isProfane(self, word):
-        if word.lower() in self.PROFANE_WORDSET:
+        if self.profane_trie.hasPrefix(word):
             return True
         return False
     
