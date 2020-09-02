@@ -49,7 +49,7 @@ For example if our profane word is 'abe', then the DFS algorithm would generate:
 
 The purpose of using DFS is to generate distorted profane words. <br/>
 
-The wordlist contains a total of **1,48,549** words, including 162 words from the default profanity_wordlist.txt and their variants by modified spellings. <br/>
+The wordlist contains a total of **48,072** words, including 130 words from the default profanity_wordlist.txt and their variants by modified spellings. <br/>
 
 Time Complexity to check whether a word is profane is `O(length of the word)`.
 
