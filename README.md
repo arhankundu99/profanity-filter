@@ -1,6 +1,7 @@
 # profanity-filter
 
-Most of the words which are in the `profane_wordlist.txt` are taken from Bad Words list for Facebook.
+Most of the words which are in the `profane_wordlist.txt` are taken from Bad Words list for Facebook. <br/>
+Supports modified spellings like `D@mn`, `$h1t` etc.
 
 ## Working
 
@@ -39,10 +40,14 @@ MAP = {
             "t": ("t", "7")
         }
 ```
-This map maps characters with set of similar looking characters. Using this map and DFS, we can generate modified spelling words of the words present in the `profane_wordlist.txt` and add them into a set. So if the word is present in the set, then it is profane otherwise not.
+This map maps characters with set of similar looking characters. Using this map and DFS, we generate modified spelling words of the words present in the `profane_wordlist.txt` and add them into a trie data structure. So if the prefix of the word is present in the trie, then it is profane otherwise not. For example the filter will detect `D@mnyou` as profane even though the word `Damnyou` is not there in the wordlist <br/>
+
+The wordlist contains a total of **181,590** words, including 320 words from the default profanity_wordlist.txt and their variants by modified spellings. <br/>
 
 For example if our profane word is 'abe', then the DFS algorithm would generate:
 ```abe, @be, *be, 4be, a6e, ab*, ab5...etc```
+
+Time Complexity to check whether a word is profane is `O(length of the word)`.
 
 ## Check whether your image is profane or not
 ```python
