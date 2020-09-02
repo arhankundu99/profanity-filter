@@ -6,9 +6,9 @@ profanity_filter = ProfanityFilter()
 
 
 def text_check():
-    print(profanity_filter.censor("you slutty asshole"))
-    profanity_filter.load_profane_words(custom_profane_wordlist={'fucker'}, whitelist={'shit'})
-    print(profanity_filter.censor("you shit fucker"))
+    print(profanity_filter.censor("you douchebag"))
+    profanity_filter.load_profane_words(custom_profane_wordlist={'douche'}, whitelist={'shit'})
+    print(profanity_filter.censor("you shit douche"))
 
 
 def get_image_analysis(URL):
