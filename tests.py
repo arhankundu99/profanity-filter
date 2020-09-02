@@ -1,14 +1,14 @@
 from profanity import ProfanityFilter
 import requests
-from PIL import Image, ImageFilter
+from trie import Trie
 
 profanity_filter = ProfanityFilter()
 
 
 def text_check():
-    print(profanity_filter.censor("you fuck fucker"))
-    profanity_filter.load_profane_words({'fucker'}, {'fuck'})
-    print(profanity_filter.censor("you fuck fucker"))
+    print(profanity_filter.censor("you slutty asshole"))
+    profanity_filter.load_profane_words(custom_profane_wordlist={'fucker'}, whitelist={'shit'})
+    print(profanity_filter.censor("you shit fucker"))
 
 
 def get_image_analysis(URL):
@@ -26,7 +26,19 @@ def censor_image(URL):
     profanity_filter.censor_image(URL)
 
 
+def trie_test():
+    test = Trie()
+    test.insert('helloworld')
+    test.insert('ilikeapple')
+    test.insert('helloz')
+
+    print(test.search('hello'))
+    print(test.startsWith('hello'))
+    print(test.search('ilikeapple'))
+
+
+text_check()
 url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSeoDsxkN3DuFG41gXq1-jggFC3mH9YjnMcbw&usqp=CAU'
-censor_image(url)
+# censor_image(url)
 
 
