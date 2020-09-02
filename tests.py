@@ -6,7 +6,7 @@ profanity_filter = ProfanityFilter()
 
 
 def text_check():
-    print(profanity_filter.censor("you shitty asshole"))
+    print(profanity_filter.censor("you slutty asshole"))
     profanity_filter.load_profane_words(custom_profane_wordlist={'fucker'}, whitelist={'shit'})
     print(profanity_filter.censor("you shit fucker"))
 
@@ -37,8 +37,8 @@ def trie_test():
     print(test.search('ilikeapple'))
 
 
-text_check()
-url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSeoDsxkN3DuFG41gXq1-jggFC3mH9YjnMcbw&usqp=CAU'
-# censor_image(url)
+def count():  # returns count of profane words including the ones generated using dfs
+    print(profanity_filter.count)
+    
 
 
