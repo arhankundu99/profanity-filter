@@ -69,5 +69,12 @@ profanity_filter.censor(image_url)
 This is done with the help of pillow library which is a Photo imaging library <br/>
 <https://pypi.org/project/Pillow/>
 
+## Limitations
+As the library compares each word by characters, the censor could easily be bypassed by adding any character(s) to the word:
+```python
+profanity_filter.censor("DDamn")
+# returns "DDamn"
+```
+
 
 
