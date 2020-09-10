@@ -42,9 +42,9 @@ MAP = {
             "t": ("t", "7")
         }
 ```
-This map maps characters with set of similar looking characters. Using this map and DFS, we generate modified spelling words of the words present in the `profane_wordlist.txt` and add them into a trie data structure. So if the prefix of the word is present in the trie, then it is profane otherwise not. For example the filter will detect `D@mnyou` as profane as it's prefix `Damn` is a profane word <br/>
+This map maps characters with set of similar looking characters. Using this map and DFS, we generate modified spelling words of the words present in the `profane_wordlist.txt` and add them into a trie data structure. So if the prefix of the word is present in the trie, then it is profane otherwise not. The filter will detect `D@mnyou` as profane as it's prefix `Damn` is a profane word <br/>
 
-For example if our profane word is 'abe', then the DFS algorithm would generate:
+If our profane word is 'abe', then the DFS algorithm would generate:
 ```abe, @be, *be, 4be, a6e, ab*, ab5...etc```
 
 The purpose of using DFS is to generate distorted profane words. <br/>
