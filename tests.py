@@ -1,29 +1,27 @@
-from profanity import ProfanityFilter
-import requests
+import profanity_filter
 from trie import Trie
-
-profanity_filter = ProfanityFilter()
+import time
+from better_profanity import profanity
 
 
 def text_check():
-    print(profanity_filter.censor("you douchebag"))
-    profanity_filter.load_profane_words(custom_profane_wordlist={'douche'}, whitelist={'shit'})
-    print(profanity_filter.censor("you shit douche"))
+    filter = profanity_filter.ProfanityFilter()
+    clean_text = filter.censor("D*mn you shit77923244")
+    print(clean_text)
+
+    filter.add_profane_words(["you", "maria"])
+    print(filter.censor("are you maria"))
+
+    filter.load_profane_words(custom_profane_wordlist={'fucker'}, whitelist={'shit'})
+    print(filter.censor("you Shit fucker"))
 
 
-def get_image_analysis(URL):
-    r = requests.post(
-        "https://api.deepai.org/api/nsfw-detector",
-        data={
-            'image': URL,
-        },
-        headers={'api-key': '7b0ebb62-4127-46a7-877f-2d520f635a75'}
-    )
-    print(r.json()['output'])
+def get_image_analysis(url):
+    return profanity_filter.get_image_analysis(url)
 
 
-def censor_image(URL):
-    profanity_filter.censor_image(URL)
+def censor_image(url):
+    profanity_filter.censor_image(url)
 
 
 def trie_test():
@@ -37,8 +35,23 @@ def trie_test():
     print(test.search('ilikeapple'))
 
 
-def count():  # returns count of profane words including the ones generated using dfs
-    print(profanity_filter.count)
-    
+def compare():
+    startTime1 = time.time()
+    filter = profanity_filter.ProfanityFilter()
+    print(filter.censor("Damnnn you"))
+    endTime1 = time.time()
+    print("Time for 1st filter: "+str(endTime1-startTime1))
+
+    startTime2 = time.time()
+    profanity.load_censor_words()
+    print(profanity.censor("D*mn you"))
+    endTime2 = time.time()
+    print("Time for 2nd filter: " + str(endTime2 - startTime2))
+
+
+if __name__ == "__main__":
+    text_check()
+    compare()
+
 
 
