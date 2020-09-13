@@ -8,54 +8,65 @@ The filter also censors words if their prefixes match with any profane word.
 ## Working
 
 ```python
-from profanity import ProfanityFilter
-profanity_filter = ProfanityFilter()
-clean_text = profanity_filter.censor("D*mn you!")
+import profanity_filter
+filter = profanity_filter.ProfanityFilter()
+clean_text = profanity_filter.censor("D*mnn you!")
 print(clean_text) 
-# **** you!
+# ***** you!
 ```
+
+All modified spellings of profane words will be detected
+Example: D*mn, D@mn, $h17, 4r53 etc
 
 ## Add your custom profane wordlist and custom whitelist
 ```python
-profanity_filter.load_profane_words(custom_profane_wordlist = {'damn', 'douche'}, whitelist = {'shit'})
+filter.load_profane_words(custom_profane_wordlist = {'damn', 'douche'}, whitelist = {'shit'})
 ```
 
 ## Check if your text has any profane word
 ```python
-profanity_filter.isProfane('You piece of $h*t')
+filter.isProfane('You piece of $h*t')
 # returns true
 ```
 
 ## How this profanity filter works for text words
-
+The entire profanity wordlist which consists of 130 mostly profane words are inserted into a trie.
 ```python
-MAP = {
-            "a": ("a", "@", "*", "4"),
-            "b": ("b", "6"),
-            "i": ("i", "*", "l", "1"),
-            "o": ("o", "*", "0", "@"),
-            "u": ("u", "*", "v"),
-            "v": ("v", "*", "u"),
-            "l": ("l", "1", "I"),
-            "e": ("e", "*", "3"),
-            "s": ("s", "$", "5"),
-            "t": ("t", "7")
+CHARS_MAPPING = {
+            "@": ("a", "o"),
+            "*": ("a", "i", "o", "u", "v", "e"),
+            "4": "a",
+            "6": "b",
+            "1": ("i", "l"),
+            "0": "o",
+            "3": ("e", "b"),
+            "$": "s",
+            "5": "s",
+            "7": "t"
         }
 ```
-This map maps characters with set of similar looking characters. Using this map and DFS, we generate modified spelling words of the words present in the `profane_wordlist.txt` and add them into a trie data structure. So if the prefix of the word is present in the trie, then it is profane otherwise not. The filter will detect `D@mnyou` as profane as it's prefix `Damn` is a profane word <br/>
-
-If our profane word is 'abe', then the DFS algorithm would generate:
-```abe, @be, *be, 4be, a6e, ab*, ab5...etc```
-
-The purpose of using DFS is to generate distorted profane words. <br/>
-
-The wordlist contains a total of **48,072** words, including 130 words from the default profanity_wordlist.txt and their variants by modified spellings. <br/>
+This map maps characters with set of similar looking alphabets.Then checking whether the word has a prefix which is present in the trie is done recursively. When we encounter numbers or symbols like `@` or `*` we use the map, replace the character and continue searching recursively <br/>
 
 Time Complexity to check whether a word is profane is `O(length of the word)`.
 
+## Add more profane words
+```python
+filter.add_profane_words(['abc', 'def'])
+```
+
+## Add more whitelist words
+```python
+filter.add_whitelist_words(['abc', 'def'])
+```
+
+## Censor profane urls
+```python
+filter.censor_url(url)
+```
+
 ## Check whether your image is profane or not
 ```python
-r = profanity_filter.get_image_analysis(IMAGE_URL)
+r = filter.get_image_analysis(IMAGE_URL)
 print(r.json())
 # json output which contains profanity_score of the image and other details
 ```
@@ -64,7 +75,7 @@ This is done with the help of `DeepAI` Api <br/>
 
 ## Censor your profane image
 ```python
-profanity_filter.censor(image_url)
+filter.censor(image_url)
 ```
 This is done with the help of pillow library which is a Photo imaging library <br/>
 <https://pypi.org/project/Pillow/>
