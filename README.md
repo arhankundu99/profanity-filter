@@ -14,7 +14,7 @@ The filter also censors words if their prefixes match with any profane word.
 ```python
 import profanity_filter
 filter = profanity_filter.ProfanityFilter()
-clean_text = profanity_filter.censor("D*mnn you!")
+clean_text = filter.censor("D*mnn you!")
 print(clean_text) 
 # ***** you!
 ```
