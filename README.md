@@ -82,7 +82,8 @@ This is done with the help of `DeepAI` Api <br/>
 filter.censor(image_url)
 ```
 This is done with the help of pillow library which is a Photo imaging library <br/>
-<https://pypi.org/project/Pillow/>
+<https://pypi.org/project/Pillow/> <br/>
+The censored images are stored in the data folder.
 
 
 
