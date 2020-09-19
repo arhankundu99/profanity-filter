@@ -2,7 +2,7 @@
 
 Most of the words which are in the `profane_wordlist.txt` are taken from Bad Words list for Facebook. <br/>
 Supports modified spellings like `D@mn`, `$h1t` etc. <br/>
-This library is significantly faster than other profanity filters which use regex. <br/>
+This library is significantly faster than other profanity filters which use regex or string.contains() methods. <br/>
 The filter also censors words if their prefixes match with any profane word. 
 
 ## Working
