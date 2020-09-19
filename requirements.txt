@@ -1,0 +1,3 @@
+PIL
+requests
+bs4
