@@ -12,8 +12,8 @@ def text_check():
     filter.add_profane_words(["you", "maria"])
     print(filter.censor("are you maria"))
 
-    filter.load_profane_words(custom_profane_wordlist={'fucker'}, whitelist={'shit'})
-    print(filter.censor("you Shit fucker"))
+    filter.load_profane_words(custom_profane_wordlist={'abc'}, whitelist={'shit'})
+    print(filter.censor("you Shit abc"))
 
 
 def get_image_analysis(url):
