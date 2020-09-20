@@ -11,7 +11,7 @@ def get_image_profanity_score(image_url):
         data={
             'image': image_url,
         },
-        headers={'api-key': '7b0ebb62-4127-46a7-877f-2d520f635a75'}
+        headers={'api-key': 'YOUR_API_KEY'}
     )
     # if nsfw_score is more than 0.7 it is definitely profane
     return r.json()['output']['nsfw-score']
@@ -23,7 +23,7 @@ def get_image_analysis(url):
         data={
             'image': url,
         },
-        headers={'api-key': '7b0ebb62-4127-46a7-877f-2d520f635a75'}
+        headers={'api-key': 'YOUR_API_KEY'}
     )
     return r.json()['output']
 
