@@ -4,18 +4,6 @@ from collections import defaultdict
 class Trie:
     def __init__(self):
         self.root = defaultdict()
-        self.CHARS_MAPPING = {
-            "@": ("a", "o"),
-            "*": ("a", "i", "o", "u", "v", "e"),
-            "4": "a",
-            "6": "b",
-            "1": ("i", "l"),
-            "0": "o",
-            "3": ("e", "b"),
-            "$": "s",
-            "5": "s",
-            "7": "t"
-        }
 
     # @param {string} word
     # @return {void}
@@ -39,19 +27,18 @@ class Trie:
             return True
         return False
 
-    def hasPrefix(self, word, idx, current):
+    def hasPrefix(self, word):
+        current = self.root
+        for letter in word:
+            if letter not in current:
+                if "_end" in current:
+                    return True
+                return False
+            current = current[letter]
         if "_end" in current:
             return True
-        if idx == len(word):
-            return False
-        if word[idx] in self.CHARS_MAPPING:
-            for char in self.CHARS_MAPPING[word[idx]]:
-                if char in current:
-                    if self.hasPrefix(word, idx+1, current[char]):
-                        return True
-        elif word[idx] in current:
-            return self.hasPrefix(word, idx+1, current[word[idx]])
         return False
+
 
     # @param {string} prefix
     # @return {boolean}
