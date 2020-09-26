@@ -34,7 +34,6 @@ filter.isProfane('You piece of $h*t')
 ```
 
 ## How this profanity filter works for text words
-The entire profanity wordlist which consists of 130 mostly profane words are inserted into a trie.
 ```python
         self.CHARS_MAPPING = {
             "a": ("a", "@", "*", "4"),
