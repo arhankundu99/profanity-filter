@@ -50,16 +50,18 @@ The entire profanity wordlist which consists of 130 mostly profane words are ins
 ```
 This map maps characters with set of similar looking alphabets. Using commonly used profane wordlist and this map, Distorted profane words (Leetspeak words) are generated and the generated words are inserted into a trie. 
 
+The wordlist generated contains a total of approximately 40000 words, including 130 words from the default profanity_wordlist.txt and their variants by modified spellings.
+
 Time Complexity to check whether a word is profane is `O(length of the word)`.
 
 ## Add more profane words
 ```python
-filter.add_profane_words(['abc', 'def'])
+filter.add_profane_words(['damn', 'shit'])
 ```
 
 ## Add more whitelist words
 ```python
-filter.add_whitelist_words(['abc', 'def'])
+filter.add_whitelist_words(['damn', 'shit'])
 ```
 
 ## Censor profane urls
@@ -87,5 +89,5 @@ The censored images are stored in the images folder.
 ## TO-DO
 1) Implement Compressed trie instead of normal trie for space optimization.
 2) Censor words whose inner substrings match with profane words while avoiding false positives.
-
+3) Add support for adding wordlist as a file.
 
