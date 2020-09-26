@@ -79,7 +79,7 @@ This is done with the help of `DeepAI` Api <br/>
 
 ## Censor your profane image
 ```python
-filter.censor(image_url)
+filter.censor_image(image_url)
 ```
 This is done with the help of pillow library which is a Photo imaging library <br/>
 <https://pypi.org/project/Pillow/> <br/>
