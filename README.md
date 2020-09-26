@@ -36,20 +36,19 @@ filter.isProfane('You piece of $h*t')
 ## How this profanity filter works for text words
 The entire profanity wordlist which consists of 130 mostly profane words are inserted into a trie.
 ```python
-CHARS_MAPPING = {
-            "@": ("a", "o"),
-            "*": ("a", "i", "o", "u", "v", "e"),
-            "4": "a",
-            "6": "b",
-            "1": ("i", "l"),
-            "0": "o",
-            "3": ("e", "b"),
-            "$": "s",
-            "5": "s",
-            "7": "t"
+        self.CHARS_MAPPING = {
+            "a": ("a", "@", "*", "4"),
+            "i": ("i", "*", "l", "1"),
+            "o": ("o", "*", "0", "@"),
+            "u": ("u", "*", "v"),
+            "v": ("v", "*", "u"),
+            "l": ("l", "1"),
+            "e": ("e", "*", "3"),
+            "s": ("s", "$", "5"),
+            "t": ("t", "7")
         }
 ```
-This map maps characters with set of similar looking alphabets.Then checking whether the word has a prefix which is present in the trie is done recursively. When we encounter numbers or symbols like `@` or `*` we use the map, replace the character and continue searching recursively <br/>
+This map maps characters with set of similar looking alphabets. Using commonly used profane wordlist and this map, Distorted profane words (Leetspeak words) are generated and the generated words are inserted into a trie. 
 
 Time Complexity to check whether a word is profane is `O(length of the word)`.
 
@@ -85,6 +84,8 @@ This is done with the help of pillow library which is a Photo imaging library <b
 <https://pypi.org/project/Pillow/> <br/>
 The censored images are stored in the images folder.
 
-
+## TO-DO
+1) Implement Compressed trie instead of normal trie for space optimization.
+2) Censor words whose inner substrings match with profane words while avoiding false positives.
 
 
