@@ -43,13 +43,54 @@ def censor_image(image_url):
 
 class ProfanityFilter:
     def __init__(self):
+        self.CHARS_MAPPING = {
+            "a": ("a", "@", "*", "4"),
+            "i": ("i", "*", "l", "1"),
+            "o": ("o", "*", "0", "@"),
+            "u": ("u", "*", "v"),
+            "v": ("v", "*", "u"),
+            "l": ("l", "1"),
+            "e": ("e", "*", "3"),
+            "s": ("s", "$", "5"),
+            "t": ("t", "7")
+        }
         self.censor_urls = set()
         self.profane_trie = Trie()
-        self.whiteList_trie = Trie()
         self.default_wordlist_filename = get_complete_path('data/profanity_wordlist.txt')
         self.default_urls_filename = get_complete_path('data/profane_sites.txt')
-        self.load_profane_words()
+
+        self.load_profane_words(profane_words=None, whitelist_words=None)
         self.load_profane_urls()
+
+    def load_profane_words(self, profane_words, whitelist_words):
+        self.profane_trie = Trie()
+        if profane_words is None:
+            profane_words = read_wordList(self.default_wordlist_filename)
+        self.generate_possible_profane_words(profane_words, whitelist_words)
+
+    def generate_possible_profane_words(self, profane_words, whitelist_words):
+        for profane_word in profane_words:
+            self.dfs(profane_word, 0, [], whitelist_words)
+
+    def dfs(self, profane_word, idx, char_list, whitelist_words):
+        if idx == len(profane_word):
+            possible_profane_word = ''
+            for char in char_list:
+                possible_profane_word += char
+            if whitelist_words is None or possible_profane_word not in whitelist_words:
+                self.profane_trie.insert(possible_profane_word)
+            return
+
+        if profane_word[idx] not in self.CHARS_MAPPING:
+            char_list.append(profane_word[idx])
+            self.dfs(profane_word, idx + 1, char_list, whitelist_words)
+            char_list.pop(len(char_list) - 1)
+
+        else:
+            for char in self.CHARS_MAPPING[profane_word[idx]]:
+                char_list.append(char)
+                self.dfs(profane_word, idx + 1, char_list, whitelist_words)
+                char_list.pop(len(char_list) - 1)
 
     def load_profane_urls(self):
         profane_urls = read_wordList(self.default_urls_filename)
@@ -73,30 +114,12 @@ class ProfanityFilter:
 
         return self.censor_profane_words(text, censor_char)
 
-    def load_profane_words(self, custom_profane_wordlist=None, whitelist=None):
-        if custom_profane_wordlist is not None:
-            self.profane_trie = Trie()
-            self.whiteList_trie = Trie()
-
-            for word in whitelist:
-                self.whiteList_trie.insert(word)
-            self.fill_profane_wordset(custom_profane_wordlist)
-        else:
-            profane_words = read_wordList(self.default_wordlist_filename)
-            self.fill_profane_wordset(profane_words)
-
-    def fill_profane_wordset(self, profane_words):
-        for profane_word in profane_words:
-            if self.whiteList_trie.hasPrefix(profane_word, 0, self.whiteList_trie.root):
-                continue
-            self.profane_trie.insert(profane_word)
-
     def censor_profane_words(self, message, censor_char):
         message = message.split()
         clean_message = ''
         for word in message:
             curr_word = ''
-            if self.profane_trie.hasPrefix(word.lower(), 0, self.profane_trie.root):
+            if self.profane_trie.hasPrefix(word.lower()):
                 for i in range(len(word)):
                     curr_word += censor_char
             else:
